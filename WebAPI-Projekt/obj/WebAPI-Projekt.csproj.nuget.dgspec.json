@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\weina\\source\\repos\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj": {}
+    "C:\\Users\\weina\\back-end\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj": {}
   },
   "projects": {
-    "C:\\Users\\weina\\source\\repos\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj": {
+    "C:\\Users\\weina\\back-end\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\weina\\source\\repos\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj",
+        "projectUniqueName": "C:\\Users\\weina\\back-end\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj",
         "projectName": "WebAPI-Projekt",
-        "projectPath": "C:\\Users\\weina\\source\\repos\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj",
+        "projectPath": "C:\\Users\\weina\\back-end\\WebAPI-Projekt\\WebAPI-Projekt\\WebAPI-Projekt.csproj",
         "packagesPath": "C:\\Users\\weina\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\weina\\source\\repos\\WebAPI-Projekt\\WebAPI-Projekt\\obj\\",
+        "outputPath": "C:\\Users\\weina\\back-end\\WebAPI-Projekt\\WebAPI-Projekt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\weina\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.1, )"
