@@ -26,7 +26,8 @@ namespace WebAPI_Projekt.Controllers
         {
             var geoMessage = await _ctx.GeoMessages.FirstOrDefaultAsync(c => c.Id == id);
             if (geoMessage == null)
-                return NotFound();
+                return StatusCode(StatusCodes.Status404NotFound, new { message = $"That Location Not Found" });
+
             var geoMessageDTO = new GeoMessageDTO
             {
                 Message = geoMessage.Message,
