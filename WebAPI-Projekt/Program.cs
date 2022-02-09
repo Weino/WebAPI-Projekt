@@ -1,5 +1,10 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebAPI_Projekt.APIAuth;
 using WebAPI_Projekt.Data;
+using WebAPI_Projekt.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +15,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddDbContext<GeoMessageDbContext>(
    options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<GeoMessageDbContext>();
+
+builder.Services.AddAuthentication("MyAuthScheme")
+    .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("MyAuthScheme", null);
 
 var app = builder.Build();
 
