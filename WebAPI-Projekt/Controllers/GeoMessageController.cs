@@ -64,7 +64,7 @@ namespace WebAPI_Projekt.Controllers
         [Authorize]
         public async Task<ActionResult<GeoMessageDTO>> PostGeoMessage([FromBody] GeoMessageDTO geoMessages)
         {
-            var user = await 
+            var user = await _userManager.GetUserAsync(this.User);
 
             var geoMessage = await _ctx.AddAsync(new GeoMessage()
             {
