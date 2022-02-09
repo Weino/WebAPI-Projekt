@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI_Projekt.Data;
@@ -16,9 +18,11 @@ namespace WebAPI_Projekt.Controllers
     {
 
         private readonly GeoMessageDbContext _ctx;
-        public GeoMessageController(GeoMessageDbContext ctx)
+        private readonly UserManager<User> _userManager;
+        public GeoMessageController(GeoMessageDbContext ctx, UserManager<User> userManager)
         {
             _ctx = ctx;
+            _userManager = userManager;
         }
 
 
@@ -57,8 +61,11 @@ namespace WebAPI_Projekt.Controllers
 
         //Post your new GeoMessage
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<GeoMessageDTO>> PostGeoMessage([FromBody] GeoMessageDTO geoMessages)
         {
+            var user = await 
+
             var geoMessage = await _ctx.AddAsync(new GeoMessage()
             {
                 Message = geoMessages.Message,
