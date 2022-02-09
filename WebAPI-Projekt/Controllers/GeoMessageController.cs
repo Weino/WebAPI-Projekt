@@ -10,7 +10,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace WebAPI_Projekt.Controllers
 {
 
-    [Route("api/GeoComments")]
+    [Route("api/v1/geo-comments")]
     [ApiController]
     public class GeoMessageController : ControllerBase
     {
@@ -21,7 +21,24 @@ namespace WebAPI_Projekt.Controllers
             _ctx = ctx;
         }
 
-        [HttpGet("Id")]
+
+        //GET api/GeoMessage - Will get you all geomessages posted
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
+        {
+            return await _ctx.GeoMessages.Select(messages =>
+                new GeoMessageDTO
+                {
+                    Message = messages.Message,
+                    Longitude = messages.Longitude,
+                    Latitude = messages.Latitude
+                })
+                .ToListAsync();
+        }
+
+
+        //Get api/GeoMessage by Id
+        [HttpGet("{id}")]
         public async Task<ActionResult<GeoMessage>> GetGeoComment(int id)
         {
             var geoMessage = await _ctx.GeoMessages.FirstOrDefaultAsync(c => c.Id == id);
@@ -38,8 +55,9 @@ namespace WebAPI_Projekt.Controllers
             return Ok(geoMessageDTO);
         }
 
+        //Post your new GeoMessage
         [HttpPost]
-        public async Task<ActionResult<GeoMessageDTO>> Post([FromBody] GeoMessageDTO geoMessages)
+        public async Task<ActionResult<GeoMessageDTO>> PostGeoMessage([FromBody] GeoMessageDTO geoMessages)
         {
             var geoMessage = await _ctx.AddAsync(new GeoMessage()
             {
