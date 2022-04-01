@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI_Projekt.Data;
 using WebAPI_Projekt.DTO;
 using WebAPI_Projekt.Models;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace WebAPI_Projekt.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebAPI_Projekt.Controllers
 
         //GET api/GeoMessage - Will get you all geomessages posted
         [HttpGet]
-        [Authorize]
+        
         public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
         {
             return await _ctx.GeoMessages.Select(messages =>
@@ -59,19 +60,16 @@ namespace WebAPI_Projekt.Controllers
 
         //Post your new GeoMessage
         [HttpPost]
-        public async Task<ActionResult<GeoMessageDTO>> PostGeoMessage([FromBody] GeoMessageDTO geoMessages)
+        [Authorize]
+        public async Task<ActionResult<GeoMessageDTO>> PostGeoMessage([FromBody] GeoMessage geoMessages)
         {
             var user = await _userManager.GetUserAsync(this.User);
 
-            var geoMessage = await _ctx.AddAsync(new GeoMessage()
-            {
-                Message = geoMessages.Message,
-                Longitude = geoMessages.Longitude,
-                Latitude = geoMessages.Latitude
-            });
+            var geoMessage = geoMessages.ToModel(user);
+            _ctx.GeoMessages.Add(geoMessage);
             await _ctx.SaveChangesAsync();
 
-            return CreatedAtAction("GetGeoComment" , new { id = geoMessage.Entity.Id } , geoMessages);
+            return CreatedAtAction("GetGeoComment" , new { id = geoMessage.Id } , geoMessages);
         }
     }
 }

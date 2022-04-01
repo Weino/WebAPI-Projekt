@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI_Projekt.APIAuth;
 using WebAPI_Projekt.Data;
@@ -18,8 +21,29 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<GeoMessageDbContext>(
    options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
 
+builder.Services.AddIdentityServer()
+    .AddDeveloperSigningCredential()
+    .AddInMemoryApiResources(Configuration.ApiResources)
+    .AddInMemoryClients(Configuration.Clients);
+
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<GeoMessageDbContext>();
+
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.Audience = "auth.web.api";
+        options.Authority = "https://localhost:44364";
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy =
+         new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
 var app = builder.Build();
 
